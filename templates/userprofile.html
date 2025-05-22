@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICS User Profile</title>
+    <link rel="stylesheet" href="/static/css/userprofile.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile</h1>
+        <form id="userForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="required" for="Name">Name</label>
+                <input type="text" id="username" name="name" required placeholder="Enter your username">
+            </div>
+        
+            <div class="form-group">
+                <label class="required">Gender</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="male" required> Male</label>
+                    <label><input type="radio" name="gender" value="female" required> Female</label>
+                    <label><input type="radio" name="gender" value="other" required> Other</label>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label class="required" for="age">Age</label>
+                <input type="number" id="age" name="age" required min="18" max="100" placeholder="Enter your age">
+            </div>
+        
+            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label class="required" for="height">Height (cm)</label>
+                    <input type="number" id="height" name="height" required min="50" max="250" placeholder="160">
+                </div>
+                <div>
+                    <label class="required" for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" name="weight" required min="20" max="200" placeholder="65">
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="bmi">BMI</label>
+                <input type="text" id="bmi" name="bmi" readonly>
+                <input type="hidden" id="hiddenBmiStatus" name="bmiStatus">
+                <div id="bmiStatus"></div>
+            </div>
+        
+            <div class="form-group">
+                <label class="required">Medical Conditions</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="medicalCondition" value="Nothing" id="nothingCheckbox"> Nothing</label>
+                    <label><input type="checkbox" name="medicalCondition" value="High Blood Pressure"> High BP</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Diabetes"> Diabetes</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Heart Disease"> Heart Disease</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Arthritis"> Arthritis</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Asthma"> Asthma</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Thyroid Disorder"> Thyroid</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Obesity"> Obesity</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Chronic Back Pain"> Back Pain</label>
+                    <label><input type="checkbox" name="medicalCondition" value="Osteoporosis"> Osteoporosis</label>
+                    <label>
+                        <input type="checkbox" id="otherCheckbox" name="medicalCondition" value="Other"> Other
+                    </label>
+                </div>
+                <div id="medicalError" class="error-message">Please select at least one medical condition</div>
+                <div id="otherConditionInput" class="other-condition">
+                    <input type="text" id="otherMedicalCondition" name="otherMedicalCondition" placeholder="Specify condition">
+                    <div id="otherError" class="error-message">Please specify your medical condition</div>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label class="required">Daily Working Hours</label>
+                <div class="hours-grid">
+                    <label><input type="radio" name="hours" value="4-6" required> 4-6 hrs</label>
+                    <label><input type="radio" name="hours" value="6-8" required> 6-8 hrs</label>
+                    <label><input type="radio" name="hours" value="8-10" required> 8-10 hrs</label>
+                    <label><input type="radio" name="hours" value="10-12" required> 10-12 hrs</label>
+                    <label><input type="radio" name="hours" value="12-14" required> 12-14 hrs</label>
+                    <label><input type="radio" name="hours" value="14+" required> 14+ hrs</label>
+                </div>
+            </div>
+        
+            <div class="form-group" class="required">
+                <label for="profilePhoto">Profile Photo</label>
+                <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*">
+            </div>
+        
+            <button type="submit">Submit Profile</button>
+        </form>
+    </div>
+    <script src="/static/js/userprofile.js" defer></script>
+</body>
+</html>

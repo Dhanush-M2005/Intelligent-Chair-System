@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Chair Monitoring</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script src="/static/js/index.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">ICS</div>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h1>Stay Active, Stay Healthy - Smart Chair Monitoring</h1>
+        <p>Track your sitting habits, get real-time insights, and improve your health with our Intelligent Chair System (ICS).</p>
+        <button id="get-started">Get Started Today</button>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>Our Services</h2>
+        <div class="service-container">
+            <div class="service">
+                <i class="fas fa-chair"></i>
+                <h3>Smart Sitting Tracking</h3>
+                <p>Monitors your sitting duration and alerts you when it’s time to take a break.</p>
+            </div>
+            <div class="service">
+                <i class="fas fa-user-check"></i>
+                <h3>Posture Monitoring</h3>
+                <p>Detects incorrect sitting posture to prevent back pain and discomfort.</p>
+            </div>
+            <div class="service">
+                <i class="fas fa-weight"></i>
+                <h3>Weight-Based Recognition</h3>
+                <p>Differentiates between users and inanimate objects for accurate tracking.</p>
+            </div>
+            <div class="service">
+                <i class="fas fa-chart-line"></i>
+                <h3>Data Analytics & Insights</h3>
+                <p>Provides detailed reports on sitting patterns to improve daily habits.</p>
+            </div>
+            <div class="service">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile & Web Connectivity</h3>
+                <p>View real-time data, receive notifications, and track your health seamlessly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We are committed to revolutionizing workplace and home ergonomics with IoT-enabled smart chairs.  
+        Our mission is to improve health and productivity by reducing prolonged sitting risks through real-time monitoring,  
+        posture analysis, and actionable insights.<br> 
+        Join us in shaping a healthier future with smart technology!</p>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="social-links">
+            <p>Follow us on:</p>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:example@example.com" class="social-icon"><i class="fas fa-envelope"></i></a>
+        </div>
+
+        <div class="footer-contact">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <textarea id="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <p id="form-message"></p>
+        </div>
+    </footer>
+
+</body>
+</html>

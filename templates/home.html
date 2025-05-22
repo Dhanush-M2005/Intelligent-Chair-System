@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICS Dashboard</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="stylesheet" href="/static/css/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+
+<body>
+    <div class="notification-container">
+        <div class="notification">
+            <div class="notification-progress"></div>
+            <div class="notification-content">
+                <h4 class="notification-title"></h4>
+                <p class="notification-message"></p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <h2><span>ICS</span></h2>
+                </div>
+                <div class="close" id="close_btn">
+                    <span class="material-symbols-sharp">close</span>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="#" class="active" id="dashboard_btn">
+                    <span class="material-symbols-sharp">grid_view</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#" id="analytics_btn">
+                    <span class="material-symbols-sharp">insights</span>
+                    <h3>Analytics</h3>
+                </a>
+                <a href="#" id="settings_btn">
+                    <span class="material-symbols-sharp">settings</span>
+                    <h3>Settings</h3>
+                </a>
+                <a href="#" id="help_btn">
+                </a>
+                <a href="index.html" id="logout_btn">
+                    <span class="material-symbols-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main>
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section active">
+                <h1>Dashboard</h1>
+                <div class="date">
+                    <input type="date">
+                </div>
+                <div class="insights">
+                    <div class="sales">
+                        <span class="material-symbols-sharp">trending_up</span>
+                        <div class="middle">
+                            <div class="left">
+                                <h3>Total Sitting Time</h3>
+                                <h1>0 HRS</h1>
+                            </div>
+                        </div>
+                        <small class="date-label"></small> 
+                    </div>
+                    <div class="expenses">
+                        <span class="material-symbols-sharp">chair</span>
+                        <div class="middle">
+                            <div class="left">
+                                <h3>Real-time Sitting Position</h3>
+                            </div>
+                            <div>
+                                <h3 id="sittingPosition">Loading...</h3>
+                            </div>
+                        </div>
+                        <small>Updated Live</small>
+                    </div>
+                    <div class="income">
+                        <span class="material-symbols-sharp">event_available</span>
+                        <div class="middle">
+                            <div class="left">
+                                <h3>Total Non-Sitting Time</h3>
+                                <h1>0 HRS</h1>
+                            </div>
+                        </div>
+                        <small class="date-label"></small> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analytics" class="content-section">
+                <h2>Analytics</h2>
+                <div class="date">
+                    <input type="date">
+                </div>
+                <div class="charts">
+                    <div class="chart-container">
+                        <canvas id="sittingTimeChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="postureTrendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="content-section">
+                <h2 class="section-title">Settings</h2>
+                <div class="settings-container">
+
+                    <!-- Change Email -->
+                    <div class="settings-group">
+                        <h3 class="settings-title">Change Email</h3>
+                        <div class="settings-item">
+                            <label>Current Email</label>
+                            <input type="email" id="current-email" class="input-field"
+                                placeholder="Enter current email">
+                        </div>
+                        <div class="settings-item">
+                            <label>New Email</label>
+                            <input type="email" id="new-email" class="input-field" placeholder="Enter new email">
+                        </div>
+                        <button class="btn btn-primary" id="save-email-btn">Update Email</button>
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="settings-group">
+                        <h3 class="settings-title">Change Password</h3>
+                        <div class="settings-item">
+                            <label>Current Password</label>
+                            <input type="password" id="current-password" class="input-field"
+                                placeholder="Enter current password">
+                        </div>
+                        <div class="settings-item">
+                            <label>New Password</label>
+                            <input type="password" id="new-password" class="input-field"
+                                placeholder="Enter new password">
+                        </div>
+                        <div class="settings-item">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirm-password" class="input-field"
+                                placeholder="Confirm new password">
+                        </div>
+                        <button class="btn btn-primary" id="update-password-btn">Update Password</button>
+                    </div>
+
+                    <!-- Download Analytics -->
+                    <div class="settings-group">
+                        <h3 class="settings-title">Analytics Data</h3>
+                        <p class="settings-description">Download comprehensive posture analytics report (PDF format)</p>
+                        <button class="btn btn-primary" id="download-analytics-btn">
+                            <span class="material-symbols-sharp">download</span>
+                            Download Full Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile Section -->
+            <div id="user-profile" class="content-section">
+                <h2 class="section-title">User Profile</h2>
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <img id="profile-pic" src="/static/img/customer01.jpg" alt="Profile Picture"
+                            class="profile-pic">
+                        <h3 id="profile-name">John Doe</h3>
+                        <p id="profile-email">johndoe@example.com</p>
+                    </div>
+                    <div class="profile-info">
+                        <p><strong>Gender:</strong> <span id="profile-gender"></span></p>
+                        <p><strong>Height:</strong> <span id="profile-height"></span> cm</p>
+                        <p><strong>Weight:</strong> <span id="profile-weight"></span> kg</p>
+                        <p><strong>BMI:</strong> <span id="profile-bmi"></span> (<span id="profile-bmi-status"></span>)
+                        </p>
+                        <p><strong>Medical Conditions:</strong> <span id="profile-medical"></span></p>
+                        <p><strong>Daily Working Hours:</strong> <span id="profile-working-hours"></span> hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Section -->
+            <div id="edit-profile" class="content-section">
+                <h2 class="section-title">Edit Profile</h2>
+                <div class="profile-card">
+                    <form id="edit-profile-form" enctype="multipart/form-data">
+                        <div class="profile-photo-upload">
+                            <img id="edit-profile-preview" src="/static/img/placeholder.jpg" alt="Profile Preview">
+                            <label for="edit-profile-photo" class="edit-icon">
+                                <span class="material-symbols-sharp">edit</span>
+                            </label>
+                            <input type="file" id="edit-profile-photo" name="profilePhoto" accept="image/*" hidden>
+                        </div>
+
+                        <div class="form-grid">
+                            <!-- Left Column -->
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" id="edit-name" name="name" class="form-input">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" name="gender" value="Male">
+                                            <span>Male</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="gender" value="Female">
+                                            <span>Female</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="gender" value="Other">
+                                            <span>Other</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Height (cm)</label>
+                                    <input type="number" id="edit-height" name="height" class="form-input">
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label>Weight (kg)</label>
+                                    <input type="number" id="edit-weight" name="weight" class="form-input">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>BMI</label>
+                                    <input type="text" id="edit-bmi" name="bmi" readonly>
+                                    <input type="hidden" name="bmiStatus" id="bmiStatus">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Daily Working Hours</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" name="working_hours" value="4-6">
+                                            <span>4-6 hrs</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="working_hours" value="6-8">
+                                            <span>6-8 hrs</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="working_hours" value="8-10">
+                                            <span>8-10 hrs</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="working_hours" value="10-12">
+                                            <span>10-12 hrs</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="working_hours" value="12-14">
+                                            <span>12-14 hrs</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="working_hours" value="14+">
+                                            <span>14+ hrs</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medical Conditions -->
+                        <div class="form-group full-width">
+                            <label>Medical Conditions</label>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Nothing">
+                                    <span>Nothing</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="High Blood Pressure">
+                                    <span>High BP</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Diabetes">
+                                    <span>Diabetes</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Heart Disease">
+                                    <span>Heart Disease</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Arthritis">
+                                    <span>Arthritis</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Asthma">
+                                    <span>Asthma</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Thyroid Disorder">
+                                    <span>Thyroid</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Obesity">
+                                    <span>Obesity</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Chronic Back Pain">
+                                    <span>Back Pain</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Osteoporosis">
+                                    <span>Osteoporosis</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="medicalCondition" value="Other">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">Save Changes</button>
+                            <button type="button" class="btn secondary" id="cancel-edit-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <div class="right">
+            <div class="top">
+                <button id="menu_bar" class="close">
+                    <span class="material-symbols-sharp">menu</span>
+                </button>
+                <div class="theme-toggler top-toggler">
+                    <span class="material-symbols-sharp active">light_mode</span>
+                    <span class="material-symbols-sharp">dark_mode</span>
+                </div>
+                <div class="profile">
+                    <img id="profile_img" src="/static/img/customer01.jpg" alt="Profile">
+                    <div class="profile-dropdown">
+                        <p id="username_display">Username</p>
+                        <a href="#" id="view_profile_btn"><span class="material-symbols-sharp">account_circle</span>View
+                            Profile</a>
+                        <a href="#" id="edit-profile-link"><span class="material-symbols-sharp">edit</span>Edit
+                            Profile</a>
+                        <a href="index.html" id="logout_btn"><span
+                                class="material-symbols-sharp">logout</span>Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/home.js"></script>
+</body>
+
+</html>
